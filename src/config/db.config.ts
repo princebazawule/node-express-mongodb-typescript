@@ -1,0 +1,1 @@
+export const url = process.env.DB_CONN_STRING
