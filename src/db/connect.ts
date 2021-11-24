@@ -5,33 +5,33 @@ dotenv.config()
 
 const { url } = require("../config/db.config")
 
-let database: Mongoose.Connection;
+let database: Mongoose.Connection
 
-export const connect = () => {
+export const connect = (): void => {
   const uri = url as string
   
   if (database) {
-    return;
+    return
   }
   Mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  } as object);
+  } as object)
 
-  database = Mongoose.connection;
+  database = Mongoose.connection
 
   database.once("open", async () => {
-    console.log(`successfully connected to db`);
-  });
+    console.log(`successfully connected to db`)
+  })
 
   database.on("error", () => {
-    console.log(`error connecting to db`);
-  });
-};
+    console.log(`error connecting to db`)
+  })
+}
 
-export const disconnect = () => {
+export const disconnect = (): void => {
   if (!database) {
-    return;
+    return
   }
-  Mongoose.disconnect();
-};
+  Mongoose.disconnect()
+}

@@ -10,6 +10,6 @@ try {
     app.listen(PORT, (): void => {
         console.log(`server running on ${PORT}`)
     })
-} catch (error: any) {
-    console.log(`error occurred: ${error.message}`)
+} catch (error: unknown) {
+    console.log(`error occurred: ${error}`)
 }

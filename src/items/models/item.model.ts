@@ -1,6 +1,7 @@
-import { model, Schema, ObjectId } from 'mongoose'
+import { model, Schema, ObjectId, Document, HookNextFunction } from 'mongoose'
+import { mongoosePagination, Pagination } from "mongoose-paginate-ts"
 
-export interface IItem {
+export interface IItem extends Document {
   id?: ObjectId
   name: string
   price: number
@@ -24,14 +25,16 @@ const ItemSchema = new Schema<IItem>({
   updatedBy: { type: String, required: false },
 })
 
-ItemSchema.pre('save', function (next) {
-  this.set({ createdAt: new Date() });
+ItemSchema.pre('save', function (next: HookNextFunction) {
+  this.set({ createdAt: new Date() })
   next()
 })
 
-ItemSchema.pre('updateOne', function(next) {
-  this.set({ modifiedAt: new Date() });
+ItemSchema.pre('updateOne', function(next: HookNextFunction) {
+  this.set({ modifiedAt: new Date() })
   next()
-});
+})
 
-export const ItemModel = model<IItem>("Item", ItemSchema)
+ItemSchema.plugin(mongoosePagination)
+
+export const Item: Pagination<IItem> = model<IItem, Pagination<IItem>>("Item", ItemSchema)
